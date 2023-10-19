@@ -1,2 +1,2 @@
-# MAPSAR
-Map Application for Places Search and Route planning
+# SARP
+An application for Search and Route planning
