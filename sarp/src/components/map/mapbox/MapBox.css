@@ -1,0 +1,54 @@
+.box {
+  padding-top: 3%;
+}
+
+#coordinate{
+  position: absolute;
+  top: 90%;
+  bottom: 0%;
+}
+  
+.settings{
+  display: flex;
+  grid-row: 1;
+  justify-content: center;
+  top: 0;
+}
+
+.planner {
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 10px;
+}
+
+label{
+  margin-left: 5px;
+  margin-right: 10px;
+}
+  
+#instructions {
+  text-align: left;
+  position: absolute;
+  margin: 10px;
+  width: fit-content;
+  height: fit-content;
+  top: 15%;
+  bottom: 30%;
+  padding: 10px;
+  font-size: small;
+  background-color: #fff;
+  overflow-y: scroll;
+  font-family: sans-serif;
+  box-shadow: 10px 10px 10px 15px rgba(0, 0, 0, 0.475);
+}
+
+#instruction-item {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+#plan-route-button {
+  margin-left: 35px;
+  font-weight: bold;
+  border-radius: 5px; 
+}
