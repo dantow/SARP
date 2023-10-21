@@ -1,5 +1,15 @@
 const oneMinuteInSeconds = 60
 
+export async function getFastestRouteDetails (routeType, coordinates, token) {
+  const response = await fetch(
+    `https://api.mapbox.com/directions/v5/mapbox/${routeType}/${coordinates}
+    ?annotations=distance,duration&overview=full&geometries=geojson&access_token=${token}`)
+
+  const routeDetails = await response.json()
+  const fastestRouteDetails = routeDetails.routes[0]
+  return fastestRouteDetails
+}
+
 function createInstructionsForSteps (legs) {
   let instructionOfSteps = ''
   for (const step of legs) {

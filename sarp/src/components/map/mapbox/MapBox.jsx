@@ -1,10 +1,10 @@
 import './MapBox.css'
-import config from '../../../config.js'
 import mapboxgl from 'mapbox-gl'
+import config from '../../../config.js'
 import 'mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { useEffect } from 'react'
 import { initializeMap } from './helpers/mapInitializer'
-import { drawRoute } from './helpers/routeDrawer'
+import { drawRoute, getFastestRouteDetails } from './helpers/routeProvider'
 import haversineDistance from '../../utils/haversine'
 
 const token = config.mapboxToken
@@ -13,10 +13,10 @@ mapboxgl.accessToken = token
 function MapBox () {
   let placeMarker = false
   let routeType = 'walking'
+  let map
   let markers = []
   let markersToRemove = []
-  let map
-  let routeDetails
+  let fastestRouteDetails
 
   function changeRouteType (type) {
     routeType = type
@@ -44,25 +44,24 @@ function MapBox () {
         )
       }
     } else {
+      const minimumDistanceInMeterToRemove = 30
+
       markersToRemove = markers.filter(marker =>
-        haversineDistance(marker.getLngLat().lat, marker.getLngLat().lng, coordinates.lat, coordinates.lng) < 30)
+        haversineDistance(marker.getLngLat(), coordinates) < minimumDistanceInMeterToRemove)
 
       removeMarkers(markersToRemove)
     }
   }
 
-  async function retrieveDirection () {
+  async function drawFastestRoute () {
     try {
       const coordinates = markers.map(
         (marker) => marker.getLngLat().lng + ',' + marker.getLngLat().lat)
         .join(';', ',')
 
-      const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/${routeType}/${coordinates}
-        ?annotations=distance,duration&overview=full&geometries=geojson&access_token=${token}`)
+      fastestRouteDetails = await getFastestRouteDetails(routeType, coordinates, token)
 
-      routeDetails = await response.json()
-      drawRoute(await routeDetails.routes[0], map)
+      drawRoute(fastestRouteDetails, map)
     } catch (error) {
       console.error(error)
     }
@@ -99,7 +98,7 @@ function MapBox () {
             <label>Cycling</label>
             <input type='checkbox' onClick={() => changeRouteType('cycling')}/>
           </div>
-          <button id='plan-route-button' onClick={() => retrieveDirection()}>Plan route </button>
+          <button id='plan-route-button' onClick={() => drawFastestRoute()}>Plan route </button>
         </div>
         <div id="map"></div>
         <div id="instructions" ></div>
