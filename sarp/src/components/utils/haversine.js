@@ -1,22 +1,28 @@
-export default function haversineDistance (lat1, lon1, lat2, lon2) {
-// Radius of the Earth in meters
-  const earthRadius = 6371000 // Approximate value for Earth's mean radius
+export default function haversineDistance (markerCoordinate, mouseCoordinate) {
+  const markerLatitude = markerCoordinate.lat
+  const markerLongitude = markerCoordinate.lng
+  const mouseLatitude = mouseCoordinate.lat
+  const mouseLongitude = mouseCoordinate.lng
+  const earthRadius = 6371000
 
   // Convert latitude and longitude from degrees to radians
-  const lat1Rad = (lat1 * Math.PI) / 180
-  const lon1Rad = (lon1 * Math.PI) / 180
-  const lat2Rad = (lat2 * Math.PI) / 180
-  const lon2Rad = (lon2 * Math.PI) / 180
+  const markerLatitudeRad = (markerLatitude * Math.PI) / 180
+  const markerLongitudeRad = (markerLongitude * Math.PI) / 180
+  const mouseLatitudeRad = (mouseLatitude * Math.PI) / 180
+  const mouseLongitudeRad = (mouseLongitude * Math.PI) / 180
 
   // Haversine formula
-  const dLat = lat2Rad - lat1Rad
-  const dLon = lon2Rad - lon1Rad
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) ** 2
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  const differenceInLatitude = mouseLatitudeRad - markerLatitudeRad
+  const differenceInLongitude = mouseLongitudeRad - markerLongitudeRad
+  const chordLengthSquared =
+    Math.sin(differenceInLatitude / 2) ** 2 +
+    Math.cos(markerLatitudeRad) * Math.cos(mouseLatitudeRad) *
+    Math.sin(differenceInLongitude / 2) ** 2
 
-  const distance = earthRadius * c
+  const angularDistance =
+    2 * Math.atan2(Math.sqrt(chordLengthSquared), Math.sqrt(1 - chordLengthSquared))
 
-  return distance
+  const distance = earthRadius * angularDistance
+
+  return Math.round(distance)
 }
