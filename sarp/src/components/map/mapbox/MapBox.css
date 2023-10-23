@@ -2,6 +2,12 @@
   padding-top: 3%;
 }
 
+.marker-placer {
+  font-weight: bold;
+  left:0%;
+  position: absolute;
+}
+
 #coordinate{
   position: absolute;
   top: 90%;
@@ -20,11 +26,6 @@
   margin-left: 35px;
   margin-right: 10px;
 }
-
-label{
-  margin-left: 5px;
-  margin-right: 10px;
-}
   
 #instructions {
   text-align: left;
@@ -34,12 +35,10 @@ label{
   height: fit-content;
   top: 15%;
   bottom: 30%;
-  padding: 10px;
   font-size: small;
   background-color: #fff;
   overflow-y: scroll;
   font-family: sans-serif;
-  box-shadow: 10px 10px 10px 15px rgba(0, 0, 0, 0.475);
 }
 
 #instruction-item {
@@ -48,7 +47,22 @@ label{
 }
 
 #plan-route-button {
+  right: 3%;
+  margin-top: -3px;
+  position: absolute;
   margin-left: 35px;
   font-weight: bold;
   border-radius: 5px; 
+  background-color: rgb(135, 38, 38);
+  color: white;
+}
+
+.colour-picker {
+  height: 20px;
+  border: 1px;
+}
+
+#instruction-box {
+  border: 2px;
+  border-style:inset;
 }
