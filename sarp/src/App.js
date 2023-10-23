@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './components/homepage/HomePage'
-import NavigationBar from './components/elements/NavigationBar'
+import NavigationBar from './components/elements/navigationbar/NavigationBar'
 import Map from './components/map/Map'
 
 function App () {
