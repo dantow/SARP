@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 function NavigationBar () {
   const navigate = useNavigate()
-
   return (
     <div className='navigationBar'>
       <img className='logo' src={process.env.PUBLIC_URL + '/sarp.png'} alt="logo" />
