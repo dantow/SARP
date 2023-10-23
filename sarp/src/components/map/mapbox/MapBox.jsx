@@ -7,23 +7,30 @@ import { initializeMap } from './helpers/mapInitializer'
 import { drawRoute, getFastestRouteDetails } from './helpers/routeProvider'
 import haversineDistance from '../../utils/haversine'
 
+const maximumNumberOfMarkers = 25
+const minimumDistanceInMeter = 30
+const defaultColor = '#3887be'
 const token = config.mapboxToken
 mapboxgl.accessToken = token
 
 function MapBox () {
-  let placeMarker = false
-  let routeType = 'walking'
   let map
   let markers = []
   let markersToRemove = []
+  let placeMarker = false
+  let routeType = 'walking'
   let fastestRouteDetails
-
+  let color = defaultColor
   function changeRouteType (type) {
     routeType = type
   }
 
   function changeMarkerPlacerState () {
     placeMarker = !placeMarker
+  }
+
+  function changeRouteColour (e) {
+    color = e.target.value
   }
 
   function removeMarkers (list) {
@@ -35,7 +42,6 @@ function MapBox () {
 
   function handleMarkerPlacement (coordinates) {
     if (placeMarker) {
-      const maximumNumberOfMarkers = 25
       if (markers.length <= maximumNumberOfMarkers) {
         markers.push(new mapboxgl.Marker()
           .setDraggable(true)
@@ -44,10 +50,8 @@ function MapBox () {
         )
       }
     } else {
-      const minimumDistanceInMeterToRemove = 30
-
       markersToRemove = markers.filter(marker =>
-        haversineDistance(marker.getLngLat(), coordinates) < minimumDistanceInMeterToRemove)
+        haversineDistance(marker.getLngLat(), coordinates) < minimumDistanceInMeter)
 
       removeMarkers(markersToRemove)
     }
@@ -61,7 +65,7 @@ function MapBox () {
 
       fastestRouteDetails = await getFastestRouteDetails(routeType, coordinates, token)
 
-      drawRoute(fastestRouteDetails, map)
+      drawRoute(fastestRouteDetails, map, color)
     } catch (error) {
       console.error(error)
     }
@@ -82,12 +86,11 @@ function MapBox () {
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
       </header>
       <div>
-        <div className='settings'>
-          <div>
-            <label>Place marker</label>
-            <input type='checkbox' onClick={() => changeMarkerPlacerState()}/>
-          </div>
-          <div className='planner'>Route by:</div>
+        <div className='marker-placer'>
+          <label>Place marker</label>
+          <input type='checkbox' onClick={() => changeMarkerPlacerState()}/>
+        </div>
+        <div className='settings'><strong>Route by:</strong>
           <div className='routes'>
             <label>Traffic</label>
             <input type='checkbox' onClick={ () => changeRouteType('driving-traffic')}/>
@@ -97,11 +100,14 @@ function MapBox () {
             <input type='checkbox' onClick={() => changeRouteType('walking')}/>
             <label>Cycling</label>
             <input type='checkbox' onClick={() => changeRouteType('cycling')}/>
+            <label>Set route colour</label>
+            <input className='colour-picker' type='color' defaultValue={color}
+              onChange={(e) => changeRouteColour(e)}/>
           </div>
           <button id='plan-route-button' onClick={() => drawFastestRoute()}>Plan route </button>
         </div>
         <div id="map"></div>
-        <div id="instructions" ></div>
+        <div id="instructions" />
         <div>
         </div>
       </div>

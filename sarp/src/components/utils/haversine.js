@@ -1,19 +1,21 @@
-export default function haversineDistance (markerCoordinate, mouseCoordinate) {
-  const markerLatitude = markerCoordinate.lat
-  const markerLongitude = markerCoordinate.lng
-  const mouseLatitude = mouseCoordinate.lat
-  const mouseLongitude = mouseCoordinate.lng
-  const earthRadius = 6371000
+const earthRadius = 6371000
+const degreesToRadiansConversionFactor = 180
 
-  // Convert latitude and longitude from degrees to radians
-  const markerLatitudeRad = (markerLatitude * Math.PI) / 180
-  const markerLongitudeRad = (markerLongitude * Math.PI) / 180
-  const mouseLatitudeRad = (mouseLatitude * Math.PI) / 180
-  const mouseLongitudeRad = (mouseLongitude * Math.PI) / 180
+function convertDegreeToRadian (degree) {
+  // Convert degrees to radians by multiplying with π and dividing by 180
+  return (degree * Math.PI) / degreesToRadiansConversionFactor
+}
+
+export default function haversineDistance (markerCoordinate, mouseCoordinate) {
+  const markerLatitudeRad = convertDegreeToRadian(markerCoordinate.lat)
+  const markerLongitudeRad = convertDegreeToRadian(markerCoordinate.lng)
+  const mouseLatitudeRad = convertDegreeToRadian(mouseCoordinate.lat)
+  const mouseLongitudeRad = convertDegreeToRadian(mouseCoordinate.lng)
 
   // Haversine formula
   const differenceInLatitude = mouseLatitudeRad - markerLatitudeRad
   const differenceInLongitude = mouseLongitudeRad - markerLongitudeRad
+
   const chordLengthSquared =
     Math.sin(differenceInLatitude / 2) ** 2 +
     Math.cos(markerLatitudeRad) * Math.cos(mouseLatitudeRad) *

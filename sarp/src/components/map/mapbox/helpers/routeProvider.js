@@ -1,4 +1,7 @@
+const indexOfFastestRoute = 0
 const oneMinuteInSeconds = 60
+const lineWidthInPixels = 5
+const lineWidthOpacity = 0.75
 
 export async function getFastestRouteDetails (routeType, coordinates, token) {
   const response = await fetch(
@@ -6,7 +9,7 @@ export async function getFastestRouteDetails (routeType, coordinates, token) {
     ?annotations=distance,duration&overview=full&geometries=geojson&access_token=${token}`)
 
   const routeDetails = await response.json()
-  const fastestRouteDetails = routeDetails.routes[0]
+  const fastestRouteDetails = routeDetails.routes[indexOfFastestRoute]
   return fastestRouteDetails
 }
 
@@ -29,19 +32,22 @@ function setInsturctions (data) {
   const instructions = document.getElementById('instructions')
   const tripDistance = Math.round(data.distance)
   const tripDuration = Math.floor(data.duration / oneMinuteInSeconds)
-  const legs = data.legs
-  const tripInstructions = createInstructionsForSteps(legs)
+  const tripInstructions = createInstructionsForSteps(data.legs)
 
-  instructions.innerHTML = `<p>
-                              <strong>Trip distance: ${tripDistance} meter
-                            </p>
-                            <p>
-                              <strong>Trip duration: ${tripDuration} min </strong>
-                            </p>
-                            <ol>${tripInstructions}</ol>`
+  instructions.innerHTML = `<div id='instruction-box'>
+                              <p>
+                                <strong>Route details</strong>
+                                <br/>
+                                <strong>Trip distance: ${tripDistance} meter
+                              </p>
+                              <p>
+                                <strong>Trip duration: ${tripDuration} min </strong>
+                              </p>
+                              <ol>${tripInstructions}</ol>
+                            </div>`
 }
 
-export const drawRoute = (data, map) => {
+export const drawRoute = (data, map, color) => {
   setInsturctions(data)
 
   const route = data.geometry.coordinates
@@ -55,6 +61,7 @@ export const drawRoute = (data, map) => {
   }
 
   if (map.getSource('route')) {
+    map.setPaintProperty('route', 'line-color', color)
     map.getSource('route').setData(geojson)
   } else {
     map.addLayer({
@@ -69,9 +76,9 @@ export const drawRoute = (data, map) => {
         'line-cap': 'round'
       },
       paint: {
-        'line-color': '#3887be',
-        'line-width': 5,
-        'line-opacity': 0.75
+        'line-color': color,
+        'line-width': lineWidthInPixels,
+        'line-opacity': lineWidthOpacity
       }
     })
   }
