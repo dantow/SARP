@@ -52,7 +52,7 @@ An application for Search and Route planning.
 
 ---
 ### 2. Set up the Mapbox token variable .
-   Update the config.js file  **mapboxToken** key value which is located in : 
+   Update the **config.js** file  **mapboxToken** key value which is located in : 
 
    ```sarp/src/```
    
