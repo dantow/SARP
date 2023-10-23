@@ -1,0 +1,62 @@
+.box {
+  padding-top: 3%;
+}
+
+#coordinate{
+  position: absolute;
+  top: 90%;
+  bottom: 0%;
+}
+  
+.settings{
+  display: flex;
+  grid-row: 1;
+  justify-content: center;
+  top: 0;
+}
+
+.planner {
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 10px;
+}
+  
+#instructions {
+  text-align: left;
+  position: absolute;
+  margin: 10px;
+  width: fit-content;
+  height: fit-content;
+  top: 15%;
+  bottom: 30%;
+  font-size: small;
+  background-color: #fff;
+  overflow-y: scroll;
+  font-family: sans-serif;
+}
+
+#instruction-item {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+#plan-route-button {
+  right: 3%;
+  margin-top: -3px;
+  position: absolute;
+  margin-left: 35px;
+  font-weight: bold;
+  border-radius: 5px; 
+  background-color: rgb(135, 38, 38);
+  color: white;
+}
+
+.colour-picker {
+  height: 20px;
+  border: 1px;
+}
+
+#instruction-box {
+  border: 2px;
+  border-style:inset;
+}
