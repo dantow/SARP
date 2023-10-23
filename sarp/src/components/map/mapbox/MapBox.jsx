@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { initializeMap } from './helpers/mapInitializer'
 import { drawRoute, getFastestRouteDetails } from './helpers/routeProvider'
 import haversineDistance from '../../utils/haversine'
+import InformationPopUp from '../../elements/InformationPopUp'
 
 const maximumNumberOfMarkers = 25
 const minimumDistanceInMeter = 30
@@ -86,10 +87,11 @@ function MapBox () {
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
       </header>
       <div>
-        <div className='marker-placer'>
-          <label>Place marker</label>
-          <input type='checkbox' onClick={() => changeMarkerPlacerState()}/>
-        </div>
+        <InformationPopUp
+          information='When the Place marker checkbox is unticked you can remove placed markers'
+        />
+        <label>Place marker</label>
+        <input type='checkbox' onClick={() => changeMarkerPlacerState()}/>
         <div className='settings'><strong>Route by:</strong>
           <div className='routes'>
             <label>Traffic</label>

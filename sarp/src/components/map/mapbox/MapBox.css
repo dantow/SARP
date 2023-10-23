@@ -2,12 +2,6 @@
   padding-top: 3%;
 }
 
-.marker-placer {
-  font-weight: bold;
-  left:0%;
-  position: absolute;
-}
-
 #coordinate{
   position: absolute;
   top: 90%;
