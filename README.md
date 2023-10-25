@@ -104,7 +104,7 @@ ___
 
 ### Running the dockerized version:
   
-1, Navigate to the project directory containing the docker-deploy.yml file.
+1, Navigate to the project directory containing the docker-compose.yml file.
 ```
 /sarp/
 ```
