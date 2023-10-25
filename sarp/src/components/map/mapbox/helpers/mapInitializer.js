@@ -22,7 +22,7 @@ export const initializeMap = (addMarker) => {
 const createGeocoder = (addMarker) => {
   return new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
+    mapboxgl
   }).on('result', (event) => {
     const resultLongitude = event.result.center[0]
     const resultLatitude = event.result.center[1]

@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  SARP:
+    image: rmnorbert/sarp
+    container_name: sarp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
