@@ -12,7 +12,6 @@
 ---
 # SARP
 A map-based application for searching places and planning routes.
-
 ---
 # Used technologies and packages:
 
